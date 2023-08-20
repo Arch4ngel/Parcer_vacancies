@@ -29,9 +29,9 @@ class HeadHunterAPI(API):
                 salary = 'не указана'
             else:
                 if not item['salary']['from']:
-                    salary = f'до {item["salary"]["to"]} {item["salary"]["currency"]}'
+                    salary = f'-{item["salary"]["to"]} {item["salary"]["currency"]}'
                 elif not item['salary']['to']:
-                    salary = f'от {item["salary"]["from"]} {item["salary"]["currency"]}'
+                    salary = f'{item["salary"]["from"]}+ {item["salary"]["currency"]}'
                 else:
                     salary = f'{item["salary"]["from"]}-{item["salary"]["to"]} {item["salary"]["currency"]}'
             result.append({'name': item['name'], 'salary': salary,
@@ -57,9 +57,9 @@ class SuperJobAPI(API):
                 salary = 'не указана'
             else:
                 if item['payment_from'] == 0:
-                    salary = f'до {item["payment_to"]} {item["currency"]}'
+                    salary = f'-{item["payment_to"]} {item["currency"]}'
                 elif item['payment_to'] == 0:
-                    salary = f'от {item["payment_from"]} {item["currency"]}'
+                    salary = f'{item["payment_from"]}+ {item["currency"]}'
                 else:
                     salary = f'{item["payment_from"]}-{item["payment_to"]} {item["currency"]}'
             result.append({'name': item['profession'], 'salary': salary,
