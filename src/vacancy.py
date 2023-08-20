@@ -11,7 +11,10 @@ class Vacancy:
         for i in self.__salary.split('-')[0]:
             if i.isdigit():
                 self.__salary_str_min += i
-        self.__salary_int_min = int(self.__salary_str_min)
+        try:
+            self.__salary_int_min = int(self.__salary_str_min)
+        except ValueError:
+            self.__salary_int_min = 0
 
     @property
     def name(self):
