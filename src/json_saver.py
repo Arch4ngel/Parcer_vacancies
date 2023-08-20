@@ -1,3 +1,6 @@
+from abc import ABC, abstractmethod
+import json
+
 class JSONSaver:
     def __init__(self):
         pass
