@@ -20,6 +20,7 @@ class HeadHunterAPI(API):
         pass
 
     def get_vacancies(self, search_query):
+        """Получение вакансий через API"""
         resp = json.loads(requests.get('https://api.hh.ru/vacancies',
                                        params={'page': 0, 'per_page': 100,
                                                'text': search_query}).content.decode())['items']
@@ -34,8 +35,12 @@ class HeadHunterAPI(API):
                     salary = f'{item["salary"]["from"]}+ {item["salary"]["currency"]}'
                 else:
                     salary = f'{item["salary"]["from"]}-{item["salary"]["to"]} {item["salary"]["currency"]}'
+            if not item['snippet']['requirement']:
+                requirements = 'не указано'
+            else:
+                requirements = item['snippet']['requirement']
             result.append({'name': item['name'], 'salary': salary,
-                           'requirements': item['snippet']['requirement']})
+                           'requirements': requirements, 'url': item['alternate_url']})
         return result
 
 
@@ -48,8 +53,9 @@ class SuperJobAPI(API):
                          'd4b01c26c2d.22a823d78d25be01cb5f9e1a67963e39770d2a28'
 
     def get_vacancies(self, search_query):
+        """Получение вакансий через API"""
         resp = json.loads(requests.get('https://api.superjob.ru/2.0/vacancies',
-                                       params={'page': 0, 'count': 50, 'keyword': search_query},
+                                       params={'page': 0, 'count': 100, 'keyword': search_query},
                                        headers={'X-Api-App-Id': self.__secretkey}).content.decode())['objects']
         result = []
         for item in resp:
@@ -63,5 +69,5 @@ class SuperJobAPI(API):
                 else:
                     salary = f'{item["payment_from"]}-{item["payment_to"]} {item["currency"]}'
             result.append({'name': item['profession'], 'salary': salary,
-                           'requirements': item['candidat']})
+                           'requirements': item['candidat'], 'url': item['link']})
         return result
