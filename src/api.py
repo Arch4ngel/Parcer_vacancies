@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 import requests
 import json
+import os
 
 
 class API(ABC):
@@ -48,9 +49,9 @@ class SuperJobAPI(API):
     """
     Класс для взаимодействия с API SuperJob
     """
+
     def __init__(self):
-        self.__secretkey = 'v3.r.137760795.db7347d3a7a498db7a1015957aa67' \
-                         'd4b01c26c2d.22a823d78d25be01cb5f9e1a67963e39770d2a28'
+        self.__secretkey = os.getenv('SJOB_API_KEY')
 
     def get_vacancies(self, search_query):
         """Получение вакансий через API"""
